@@ -1,0 +1,27 @@
+# Secrets and runtime configuration
+.env
+.env.*
+!.env.example
+*.db
+*.sqlite
+*.sqlite3
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Build/runtime artifacts
+backups/
+logs/
+.DS_Store
+Thumbs.db
+
+# Node tools, if introduced later
+node_modules/
+dist/
+build/

@@ -1,0 +1,30 @@
+:80 {
+	encode zstd gzip
+
+	@panelRoot path /panel
+	redir @panelRoot /panel/ 308
+
+	@api path /api/* /health* /docs* /redoc* /openapi.json
+	handle @api {
+		reverse_proxy api:8000
+	}
+
+	handle_path /panel/* {
+		root * /srv/apps/panel
+		try_files {path} /index.html
+		file_server
+	}
+
+	handle {
+		root * /srv/apps/storefront
+		try_files {path} /index.html
+		file_server
+	}
+
+	header {
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+	}
+}

@@ -1,0 +1,53 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-fadak}
+      POSTGRES_USER: ${POSTGRES_USER:-fadak}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Copy .env.example to .env and set POSTGRES_PASSWORD}
+    volumes:
+      - fadak_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \\"$${POSTGRES_USER}\\" -d \\"$${POSTGRES_DB}\\""]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    networks: [fadak-private]
+
+  api:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: ${DATABASE_URL:?Set DATABASE_URL in .env}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:8080,http://127.0.0.1:8080}
+    depends_on:
+      db:
+        condition: service_healthy
+    expose: ["8000"]
+    networks: [fadak-private]
+
+  web:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT:-8080}:80"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./apps:/srv/apps:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on: [api]
+    networks: [fadak-private]
+
+volumes:
+  fadak_postgres_data:
+  caddy_data:
+  caddy_config:
+
+networks:
+  fadak-private:
+    internal: false
