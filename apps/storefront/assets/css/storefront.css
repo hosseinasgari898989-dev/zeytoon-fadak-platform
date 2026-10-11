@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap');
 
 *{box-sizing:border-box}
 :root{
@@ -5,7 +6,7 @@
 --btn:#2F7D32;--btn-d:#245F27;--btn-text:#FFFFFF;--green-t:#256B2A;--green-l:#E4F1D8;--yellow:#F4B400;--yellow-d:#8A6200;--yellow-l:#FFF3C4;
 --shadow:0 14px 34px rgba(31,90,37,.13);--shadow-s:0 4px 14px rgba(31,90,37,.10);
 --stage-a:#EEF6DE;--stage-b:#FFF4CE;--hero-a:#F1F8E4;--hero-b:#FFF8DA;--footer:#16301A;--footer-ink:#E9F2E2;
---font:Tahoma,"Segoe UI",Arial,sans-serif;--display:Georgia,serif;
+--font:"Vazirmatn",Tahoma,"Segoe UI",Arial,sans-serif;--display:"Vazirmatn",Tahoma,serif;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
 }
 @media (prefers-color-scheme: dark){
