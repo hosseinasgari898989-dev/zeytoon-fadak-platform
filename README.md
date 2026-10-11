@@ -18,3 +18,10 @@
 3. راهنمای [راه‌اندازی](docs/DEPLOYMENT.md) و [به‌روزرسانی](docs/UPDATING.md) را بخوانید.
 
 > درگاه پرداخت، پیامک و اتصال خودکار کارت‌خوان فیزیکی تا زمان دریافت و اعتبارسنجی اطلاعات رسمی ارائه‌دهنده، فعال فرض نمی‌شوند.
+
+## مشاهده‌ی پروژه با GitHub Pages
+- صفحه‌ی معرفی هر دو سامانه: https://hosseinasgari898989-dev.github.io/zeytoon-fadak-platform/
+- فروشگاه مشتریان: https://hosseinasgari898989-dev.github.io/zeytoon-fadak-platform/storefront/
+- پنل مدیریت حسابداری امانی: https://hosseinasgari898989-dev.github.io/zeytoon-fadak-platform/panel/
+
+برای فعال‌سازی اولیه، در **Settings → Pages → Build and deployment → Source** گزینه‌ی **GitHub Actions** را انتخاب کن و سپس workflow مربوط به Pages را اجرا کن. جزئیات در `docs/PAGES.md` است. این لینک‌ها نسخه‌ی نمایشی عمومی‌اند؛ داده‌های پنل ساختگی است و بک‌اند/پرداخت زنده محسوب نمی‌شود.

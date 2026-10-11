@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#173d27">
+  <title>زیتون فدک | نمایش دو سامانه</title>
+  <meta name="description" content="نمایش پروژه زیتون فدک شامل فروشگاه اینترنتی محصولات زیتون و پنل مدیریت حسابداری امانی فروشگاه‌ها.">
+  <style>
+    :root{--ink:#1b2b1e;--muted:#617060;--green:#286d31;--deep:#163f25;--line:#e1e9d9;--paper:#fffefa;--gold:#f4c34e}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;min-height:100vh;color:var(--ink);font-family:Tahoma,"Segoe UI",Arial,sans-serif;line-height:1.8;background:radial-gradient(800px 450px at 90% -15%,#f9e9aa 0%,transparent 68%),radial-gradient(800px 500px at -10% 50%,#d8ebd0 0%,transparent 70%),#f5f7ef}
+    a{color:inherit}
+    .wrap{width:min(1120px,calc(100% - 32px));margin:auto}
+    .top{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:22px 0}
+    .brand{display:flex;align-items:center;gap:11px;text-decoration:none}
+    .mark{height:48px;width:48px;display:grid;place-items:center;color:white;font-size:25px;font-weight:900;border-radius:16px;background:linear-gradient(145deg,#5da24b,#194d2a);box-shadow:0 10px 24px #214b2c25;transform:rotate(-4deg)}
+    .brand b{display:block;font-size:19px;line-height:1.4}.brand small{display:block;color:var(--muted);font-size:11px}
+    .pill{border:1px solid #dce8d2;border-radius:999px;padding:7px 12px;font-size:11px;color:var(--green);background:#ffffffbb;font-weight:800}
+    .hero{position:relative;overflow:hidden;color:white;background:linear-gradient(125deg,#143e25,#2c7436 65%,#4b9040);border-radius:32px;padding:clamp(25px,5vw,58px);box-shadow:0 25px 55px #174a2b25}
+    .hero:before,.hero:after{content:"";position:absolute;border:1px solid #ffffff24;border-radius:50%;width:320px;height:320px;left:-150px;bottom:-240px;box-shadow:0 0 0 30px #ffffff08,0 0 0 68px #ffffff06}
+    .hero:after{width:200px;height:200px;left:auto;right:-120px;top:-130px;bottom:auto}
+    .eyebrow{display:inline-flex;padding:5px 12px;border-radius:999px;background:#ffffff23;font-size:11px;font-weight:900;letter-spacing:.2px}
+    h1{font-size:clamp(30px,5.3vw,53px);line-height:1.35;margin:17px 0 12px;max-width:780px}
+    .hero p{max-width:690px;font-size:15px;color:#e2f0df;margin:0}
+    .herofoot{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:26px}
+    .herofoot span{font-size:11px;color:#e4efde;border:1px solid #ffffff35;border-radius:12px;padding:8px 12px;background:#ffffff0e}
+    .sectionhead{display:flex;align-items:end;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:38px 0 17px}
+    .sectionhead h2{font-size:23px;margin:0}.sectionhead p{font-size:12px;color:var(--muted);margin:3px 0 0}
+    .cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+    .card{--accent:#2f7d32;position:relative;display:flex;flex-direction:column;min-height:340px;padding:23px;border-radius:25px;background:var(--paper);border:1px solid var(--line);box-shadow:0 14px 34px #1c47210b;overflow:hidden;transition:transform .18s,box-shadow .18s,border-color .18s}
+    .card:hover{transform:translateY(-4px);box-shadow:0 22px 45px #1c472116;border-color:#bcd5b0}
+    .card.panel{--accent:#ae8130}
+    .cardtop{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .num{font-size:11px;font-weight:900;color:var(--accent);background:color-mix(in srgb,var(--accent) 9%,white);border:1px solid color-mix(in srgb,var(--accent) 18%,white);padding:5px 11px;border-radius:999px}
+    .orb{width:70px;height:70px;display:grid;place-items:center;border-radius:23px;font-size:34px;background:linear-gradient(145deg,#eef8e7,#fff0c5);box-shadow:inset 0 1px #fff,0 9px 23px #254c2012;transform:rotate(-5deg)}
+    .card h3{font-size:23px;line-height:1.4;margin:20px 0 8px}
+    .desc{font-size:13px;color:var(--muted);margin:0;max-width:480px}
+    .features{display:flex;gap:7px;flex-wrap:wrap;margin-top:17px}
+    .features span{padding:6px 9px;border-radius:10px;border:1px solid var(--line);background:#fbfcf8;font-size:10px;color:#445744}
+    .cardbottom{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:auto;padding-top:23px}
+    .cardbottom small{font-size:10px;color:var(--muted)}
+    .button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:45px;padding:0 17px;text-decoration:none;border-radius:13px;background:var(--accent);color:white;font-size:12px;font-weight:900;box-shadow:0 7px 14px color-mix(in srgb,var(--accent) 20%,transparent);white-space:nowrap}
+    .button:hover{filter:brightness(1.06)}
+    .notice{display:flex;gap:12px;align-items:flex-start;padding:17px;border:1px solid #ecd9a4;background:#fff8e2;border-radius:17px;margin-top:20px;color:#6b571f;font-size:11px}
+    .notice b{display:block;font-size:12px;margin-bottom:2px;color:#584514}
+    footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:26px 2px 30px;font-size:10px;color:var(--muted)}
+    footer a{text-decoration:none;color:var(--green);font-weight:800}
+    @media(max-width:700px){.cards{grid-template-columns:1fr}.card{min-height:0}.hero{border-radius:23px}.hero p{font-size:13px}.sectionhead h2{font-size:20px}.top{align-items:flex-start}.pill{max-width:48%;text-align:center}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.card,.button{transition:none}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <a class="brand" href="./" aria-label="صفحه اصلی زیتون فدک">
+        <span class="mark" aria-hidden="true">ف</span>
+        <span><b>زیتون فدک</b><small>فروشگاه و سامانه‌ی حسابداری امانی</small></span>
+      </a>
+      <span class="pill">نسخه‌ی نمایشی برای ارائه</span>
+    </header>
+
+    <main>
+      <section class="hero">
+        <span class="eyebrow">پروژه‌ی زیتون فدک</span>
+        <h1>دو سامانه، یک تجربه‌ی یکپارچه</h1>
+        <p>این پروژه دو بخش دارد: فروشگاه مشتریان برای مشاهده‌ی محصولات و ثبت سفارش، و پنل مدیریت برای پیگیری کالاهای امانی، فروش و گزارش‌های حسابداری. برای مشاهده، هر بخش را جداگانه باز کن.</p>
+        <div class="herofoot">
+          <span>طراحی فارسی و راست‌چین</span>
+          <span>قابل نمایش در موبایل و رایانه</span>
+          <span>ساختار آماده‌ی توسعه و به‌روزرسانی</span>
+        </div>
+      </section>
+
+      <div class="sectionhead">
+        <div><h2>بخش‌های پروژه</h2><p>عنوان و توضیح هر سامانه همراه با لینک مستقل آن</p></div>
+      </div>
+
+      <section class="cards" aria-label="دو سامانه‌ی زیتون فدک">
+        <article class="card">
+          <div class="cardtop"><span class="num">سایت اول · بخش مشتریان</span><span class="orb" aria-hidden="true">🫒</span></div>
+          <h3>فروشگاه اینترنتی زیتون فدک</h3>
+          <p class="desc">محیط خرید مشتریان با دسته‌بندی محصولات زیتون و روغن زیتون، مشاهده‌ی بسته‌بندی‌ها و قیمت‌ها، سبد خرید، فرم سفارش، پیگیری سفارش و فرم‌های تماس و فروش عمده.</p>
+          <div class="features"><span>کاتالوگ محصولات</span><span>سبد خرید</span><span>فرم سفارش</span><span>پیگیری سفارش</span></div>
+          <div class="cardbottom"><small>مناسب برای نمایش بخش فروشگاه</small><a class="button" href="storefront/">مشاهده‌ی فروشگاه <span aria-hidden="true">←</span></a></div>
+        </article>
+
+        <article class="card panel">
+          <div class="cardtop"><span class="num">سایت دوم · بخش مدیریت</span><span class="orb" aria-hidden="true">📊</span></div>
+          <h3>پنل مدیریت حسابداری امانی</h3>
+          <p class="desc">پنل داخلی برای مدیریت کالاها و قیمت‌ها، فروشگاه‌های طرف قرارداد، تحویل امانی، ثبت فروش، تطبیق تراکنش‌های کارت‌خوان، گزارش‌ها و نسخه‌ی پشتیبان اطلاعات.</p>
+          <div class="features"><span>کالا و فروشگاه</span><span>تحویل امانی</span><span>ثبت فروش</span><span>گزارش و تسویه</span></div>
+          <div class="cardbottom"><small>داده‌های نمایشی ساختگی هستند</small><a class="button" href="panel/">مشاهده‌ی پنل <span aria-hidden="true">←</span></a></div>
+        </article>
+      </section>
+
+      <aside class="notice">
+        <span aria-hidden="true">ⓘ</span>
+        <div><b>نکته‌ی مهم درباره‌ی نسخه‌ی ارائه</b>این نسخه برای مشاهده‌ی ظاهر و مسیرهای اصلی ساخته شده است. داده‌های پنل نمونه و ساختگی‌اند؛ ثبت سفارش روی سرور، همگام‌سازی چنددستگاهی و پرداخت آنلاین تا زمان راه‌اندازی بک‌اند و تنظیمات واقعی فعال نیستند.</div>
+      </aside>
+    </main>
+
+    <footer>
+      <span>زیتون فدک · نسخه‌ی نمایشی</span>
+      <a href="https://github.com/hosseinasgari898989-dev/zeytoon-fadak-platform">مشاهده‌ی کدهای پروژه در GitHub ↗</a>
+    </footer>
+  </div>
+</body>
+</html>

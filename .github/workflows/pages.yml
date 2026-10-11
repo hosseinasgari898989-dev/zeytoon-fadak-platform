@@ -1,0 +1,80 @@
+name: Publish GitHub Pages presentation
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'apps/**'
+      - 'pages/**'
+      - 'docs/PAGES.md'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Build the two-site presentation
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p _site/storefront _site/panel
+          cp -R apps/storefront/. _site/storefront/
+          cp -R apps/panel/. _site/panel/
+          cp pages/index.html _site/index.html
+          touch _site/.nojekyll
+          python - <<'PY'
+          from pathlib import Path
+
+          panel_path = Path('_site/panel/index.html')
+          panel = panel_path.read_text(encoding='utf-8')
+          marker = '  <script src="assets/js/panel.js"></script>'
+          demo_script = '''  <script>
+          window.FADAK_DEMO = true;
+          window.FADAK_API_BASE = "";
+          var badge = document.querySelector(".local-status");
+          if (badge) badge.textContent = "نسخه‌ی نمایشی · داده‌های ساختگی";
+          </script>
+          '''
+          if marker not in panel:
+              raise SystemExit('Panel JavaScript insertion point was not found.')
+          panel_path.write_text(panel.replace(marker, demo_script + marker, 1), encoding='utf-8')
+
+          orders_path = Path('_site/panel/orders.html')
+          orders = orders_path.read_text(encoding='utf-8')
+          orders = orders.replace('<input id="apiBase" inputmode="url" autocomplete="url" placeholder="https://your-domain.example" required>', '<input id="apiBase" inputmode="url" autocomplete="url" placeholder="در نسخه‌ی نمایشی غیرفعال است" disabled>')
+          orders = orders.replace('<input id="apiToken" type="password" autocomplete="current-password" placeholder="کلید محرمانه پنل" required>', '<input id="apiToken" type="password" autocomplete="off" placeholder="اتصال سرور در نسخه‌ی نمایشی غیرفعال است" disabled>')
+          orders = orders.replace('<button class="btn primary" id="connectButton" type="submit">اتصال و دریافت سفارش‌ها</button>', '<button class="btn subtle" id="connectButton" type="button" disabled>اتصال سرور در نسخه‌ی نمایشی غیرفعال است</button>')
+          orders = orders.replace('هنوز به سرور وصل نشده‌ای.', 'این صفحه فقط برای نمایش است؛ اتصال سرور در نسخه‌ی عمومی غیرفعال است.')
+          orders_path.write_text(orders, encoding='utf-8')
+          PY
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: "${{ steps.deployment.outputs.page_url }}"
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
