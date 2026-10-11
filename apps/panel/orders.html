@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <title>سفارش‌های اینترنتی | زیتون فدک</title>
+  <meta name="description" content="مدیریت امن سفارش‌های فروشگاه اینترنتی زیتون فدک">
+  <link rel="stylesheet" href="assets/css/orders.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="masthead">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">ف</span>
+        <div><h1>زیتون فدک</h1><p>مرکز سفارش‌های اینترنتی</p></div>
+      </div>
+      <a class="back-link" href="index.html">بازگشت به پنل حسابداری ↗</a>
+    </header>
+
+    <section class="intro">
+      <div>
+        <span class="eyebrow">مدیریت فروشگاه</span>
+        <h2>سفارش‌ها، از ثبت تا تحویل</h2>
+        <p>فهرست از سرور خوانده می‌شود؛ اطلاعات مشتری فقط پس از اتصال با کلید مدیریتی نمایش داده می‌شود.</p>
+      </div>
+      <div class="intro-mark" aria-hidden="true">🫒</div>
+    </section>
+
+    <section class="connect-card">
+      <div class="connect-copy">
+        <h3>اتصال امن به سرور</h3>
+        <p>کلید مدیریتی از تنظیمات پنل برداشته می‌شود و فقط در نشست همین مرورگر نگه داشته می‌شود.</p>
+      </div>
+      <form id="connectForm" class="connect-form">
+        <label>نشانی پایه API
+          <input id="apiBase" inputmode="url" autocomplete="url" placeholder="https://your-domain.example" required>
+        </label>
+        <label>کلید مدیریتی
+          <input id="apiToken" type="password" autocomplete="current-password" placeholder="کلید محرمانه پنل" required>
+        </label>
+        <button class="btn primary" id="connectButton" type="submit">اتصال و دریافت سفارش‌ها</button>
+      </form>
+      <p id="connectionStatus" class="status-note" role="status" aria-live="polite">هنوز به سرور وصل نشده‌ای.</p>
+    </section>
+
+    <section id="workspace" hidden>
+      <div class="metrics" id="metrics"></div>
+      <div class="list-head">
+        <div><h3>آخرین سفارش‌ها</h3><p id="resultSummary">—</p></div>
+        <button class="btn subtle" id="refreshButton" type="button">↻ تازه‌سازی</button>
+      </div>
+      <div class="filters">
+        <label class="search-field">جست‌وجو
+          <input id="searchInput" type="search" placeholder="کد، نام مشتری، موبایل یا شهر">
+        </label>
+        <label>وضعیت
+          <select id="statusFilter">
+            <option value="all">همه‌ی وضعیت‌ها</option>
+            <option value="new">ثبت سفارش</option>
+            <option value="confirmed">تأیید سفارش</option>
+            <option value="awaiting_payment">در انتظار پرداخت</option>
+            <option value="paid">پرداخت‌شده</option>
+            <option value="preparing">در حال آماده‌سازی</option>
+            <option value="shipped">ارسال‌شده</option>
+            <option value="delivered">تحویل‌شده</option>
+            <option value="cancelled">لغوشده</option>
+          </select>
+        </label>
+      </div>
+      <div id="ordersList" class="orders-grid"></div>
+    </section>
+
+    <dialog id="detailDialog" class="detail-dialog">
+      <form id="detailForm" class="detail-card">
+        <div class="detail-heading">
+          <div><span class="eyebrow">جزئیات سفارش</span><h3 id="detailTitle">—</h3></div>
+          <button class="close-button" id="closeDialog" type="button" aria-label="بستن">×</button>
+        </div>
+        <div id="detailContent"></div>
+        <div class="status-editor">
+          <label>وضعیت سفارش
+            <select id="detailStatus">
+              <option value="new">ثبت سفارش</option>
+              <option value="confirmed">تأیید سفارش</option>
+              <option value="awaiting_payment">در انتظار پرداخت</option>
+              <option value="paid">پرداخت‌شده</option>
+              <option value="preparing">در حال آماده‌سازی</option>
+              <option value="shipped">ارسال‌شده</option>
+              <option value="delivered">تحویل‌شده</option>
+              <option value="cancelled">لغوشده</option>
+            </select>
+          </label>
+          <label>یادداشت وضعیت
+            <input id="detailNote" maxlength="500" placeholder="مثلاً تماس انجام شد یا سفارش ارسال شد">
+          </label>
+          <button class="btn primary" id="saveStatusButton" type="submit">ذخیره وضعیت</button>
+        </div>
+        <p id="detailStatusMessage" class="status-note" role="status" aria-live="polite"></p>
+      </form>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <footer><span>زیتون فدک</span><span>داده‌های سفارش از API مرکزی خوانده می‌شوند.</span></footer>
+  </main>
+  <script src="assets/js/orders.js"></script>
+</body>
+</html>

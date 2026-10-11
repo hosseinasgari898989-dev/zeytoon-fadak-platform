@@ -82,3 +82,28 @@ async def test_state_version_conflict(client):
 
     conflict = await client.put("/api/state", headers={**token, "If-Match": "0"}, json=payload)
     assert conflict.status_code == 409
+@pytest.mark.asyncio
+async def test_admin_orders_return_delivery_details_only_with_token(client):
+    payload = {
+        "name": "مشتری آزمایشی",
+        "phone": "09123456789",
+        "city": "قم",
+        "postalCode": "3711111111",
+        "address": "نشانی آزمایشی شماره یک",
+        "delivery": "ارسال با پست",
+        "payment": "کارت به کارت",
+        "items": [{"pid": "o1", "vi": 0, "qty": 1}],
+    }
+    created = await client.post("/api/orders", json=payload, headers={"Idempotency-Key": "order-admin-test-key"})
+    assert created.status_code == 201
+
+    denied = await client.get("/api/admin/orders")
+    assert denied.status_code == 401
+
+    token = {"Authorization": "Bearer test-panel-token-with-more-than-24-chars"}
+    response = await client.get("/api/admin/orders", headers=token)
+    assert response.status_code == 200
+    order = response.json()["orders"][0]
+    assert order["customer"]["name"] == "مشتری آزمایشی"
+    assert order["customer"]["address"] == "نشانی آزمایشی شماره یک"
+

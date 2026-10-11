@@ -89,6 +89,23 @@ def order_public(order: ShopOrder) -> dict[str, Any]:
     }
 
 
+def order_admin(order: ShopOrder) -> dict[str, Any]:
+    data = order_public(order)
+    data.update({
+        "customer": {
+            "name": order.name,
+            "phone": order.phone,
+            "city": order.city,
+            "postalCode": order.postal_code,
+            "address": order.address,
+        },
+        "delivery": order.delivery,
+        "payment": order.payment,
+        "notes": order.notes or "",
+    })
+    return data
+
+
 async def audit(session: AsyncSession, action: str, entity: str, entity_id: str, details: dict | None = None, actor: str = "system") -> None:
     session.add(AuditLog(actor=actor, action=action, entity=entity, entity_id=entity_id, details=details or {}))
 
@@ -248,7 +265,7 @@ async def admin_orders(
     if status_filter:
         query = select(ShopOrder).where(ShopOrder.status == status_filter).order_by(ShopOrder.created_at.desc()).limit(limit)
     orders = (await session.scalars(query)).all()
-    return {"orders": [order_public(item) for item in orders], "count": len(orders)}
+    return {"orders": [order_admin(item) for item in orders], "count": len(orders)}
 
 
 @app.patch("/api/admin/orders/{code}/status")
@@ -266,6 +283,9 @@ async def update_order_status(
         raise HTTPException(status_code=404, detail="سفارش پیدا نشد.")
     previous = order.status
     order.status = payload.status
+    if payload.status == "paid":
+        # The authenticated owner must verify the payment outside the site before using this status.
+        order.payment_status = "paid"
     order.updated_at = utcnow()
     timeline = list(order.timeline or [])
     timeline.append({"status": payload.status, "label": ORDER_STATUSES[payload.status], "at": iso(order.updated_at), "note": payload.note.strip()})
@@ -273,7 +293,7 @@ async def update_order_status(
     await audit(session, "order.status_changed", "order", order.code, {"from": previous, "to": payload.status}, actor)
     await session.commit()
     await session.refresh(order)
-    return order_public(order)
+    return order_admin(order)
 
 
 @app.put("/api/state")
