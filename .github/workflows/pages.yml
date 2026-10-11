@@ -40,7 +40,7 @@ jobs:
 
           panel_path = Path('_site/panel/index.html')
           panel = panel_path.read_text(encoding='utf-8')
-          marker = '  <script src="assets/js/panel.js"></script>'
+          marker = '<script src="assets/js/panel.js"></script>'
           demo_script = '''  <script>
           window.FADAK_DEMO = true;
           window.FADAK_API_BASE = "";
