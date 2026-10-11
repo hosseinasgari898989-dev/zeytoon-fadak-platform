@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap');
 :root{
   --bg:#f4f7ee;--paper:#fff;--paper2:#f9fbf5;--ink:#17271b;--muted:#647262;
   --line:#dfe8d6;--green:#2f7d32;--green-dark:#1e5b25;--soft-green:#eaf4e3;
@@ -6,7 +7,7 @@
 }
 *{box-sizing:border-box}
 html{color-scheme:light;scroll-behavior:smooth}
-body{margin:0;background:radial-gradient(900px 450px at 90% -10%,#fff0bd 0%,transparent 70%),radial-gradient(700px 420px at -10% 25%,#dfefd5 0%,transparent 72%),var(--bg);font-family:Tahoma,"Segoe UI",Arial,sans-serif;color:var(--ink);line-height:1.75}
+body{margin:0;background:radial-gradient(900px 450px at 90% -10%,#fff0bd 0%,transparent 70%),radial-gradient(700px 420px at -10% 25%,#dfefd5 0%,transparent 72%),var(--bg);font-family:"Vazirmatn",Tahoma,"Segoe UI",Arial,sans-serif;color:var(--ink);line-height:1.75}
 button,input,select{font:inherit}
 button{cursor:pointer}
 a{color:inherit}
