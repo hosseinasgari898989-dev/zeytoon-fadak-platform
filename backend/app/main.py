@@ -135,11 +135,10 @@ async def get_catalog(session: AsyncSession = Depends(get_db)):
     rows = (await session.scalars(select(Product).where(Product.active.is_(True)).order_by(Product.category, Product.id))).all()
     products = []
     for product in rows:
-        variants = [
-            {"l": str(item.get("l", "")), "p": int(item.get("p", 0))}
-            for item in (product.variants or [])
-            if item.get("active", True) and int(item.get("p", 0)) > 0
-        ]
+        variants = []
+        for index, item in enumerate(product.variants or []):
+            if item.get("active", True) and int(item.get("p", 0)) > 0:
+                variants.append({"l": str(item.get("l", "")), "p": int(item.get("p", 0)), "vi": index})
         products.append({
             "id": product.id,
             "c": product.category,

@@ -46,6 +46,9 @@ async def test_health_and_catalog(client):
     assert catalog.status_code == 200
     ids = {product["id"] for product in catalog.json()["products"]}
     assert {"o1", "l1", "v1", "c1"} <= ids
+    olive = next(product for product in catalog.json()["products"] if product["id"] == "o1")
+    assert olive["v"][0]["vi"] == 0
+    assert olive["v"][1]["vi"] == 1
 
 
 @pytest.mark.asyncio

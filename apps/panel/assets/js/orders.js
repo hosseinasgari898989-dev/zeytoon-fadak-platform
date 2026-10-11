@@ -12,6 +12,7 @@
   function digits(value){return String(value||"").replace(/[۰-۹]/g,function(c){return "۰۱۲۳۴۵۶۷۸۹".indexOf(c);}).replace(/[٠-٩]/g,function(c){return "٠١٢٣٤٥٦٧٨٩".indexOf(c);});}
   function number(value){var n=Number(value);return Number.isFinite(n)?n:0;}
   function money(value){return Math.round(number(value)).toLocaleString("fa-IR")+" تومان";}
+  function paymentLabel(value){var labels={unpaid:"پرداخت‌نشده",paid:"پرداخت‌شده",not_configured:"درگاه غیرفعال",pending_confirmation:"در انتظار تأیید"};return labels[value]||value||"نامشخص";}
   function dateLabel(value){if(!value)return "—";var date=new Date(value);if(Number.isNaN(date.getTime()))return "—";try{return new Intl.DateTimeFormat("fa-IR",{dateStyle:"medium",timeStyle:"short"}).format(date);}catch(e){return date.toLocaleString();}}
   function notice(text,kind){connectionStatus.textContent=text;connectionStatus.className="status-note"+(kind?" "+kind:"");}
   function popup(text){var node=document.getElementById("toast");node.textContent=text;node.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(function(){node.classList.remove("show");},3200);}
@@ -101,7 +102,7 @@
     document.getElementById("detailContent").innerHTML=
       '<div class="detail-columns">'+
        '<section class="detail-box"><h4>اطلاعات مشتری</h4><p><b>'+escapeHtml(c.name||"—")+'</b></p><p>موبایل: <b dir="ltr">'+escapeHtml(c.phone||"—")+'</b></p><p>شهر: '+escapeHtml(c.city||"—")+'</p><p>کد پستی: '+escapeHtml(c.postalCode||"—")+'</p><p>نشانی: '+escapeHtml(c.address||"—")+'</p></section>'+
-       '<section class="detail-box"><h4>ارسال و پرداخت</h4><p>ارسال: '+escapeHtml(o.delivery||"—")+'</p><p>روش پرداخت: '+escapeHtml(o.payment||"—")+'</p><p>وضعیت پرداخت: <b>'+escapeHtml(o.paymentStatus||"نامشخص")+'</b></p><p>ثبت: '+escapeHtml(dateLabel(o.createdAt))+'</p></section>'+
+       '<section class="detail-box"><h4>ارسال و پرداخت</h4><p>ارسال: '+escapeHtml(o.delivery||"—")+'</p><p>روش پرداخت: '+escapeHtml(o.payment||"—")+'</p><p>وضعیت پرداخت: <b>'+escapeHtml(paymentLabel(o.paymentStatus))+'</b></p><p>ثبت: '+escapeHtml(dateLabel(o.createdAt))+'</p></section>'+
       '</div>'+
       '<section class="detail-box" style="margin-top:12px"><h4>اقلام سفارش</h4><table class="detail-items"><thead><tr><th>کالا</th><th>اندازه</th><th>تعداد</th><th>مبلغ</th></tr></thead><tbody>'+rows+'</tbody></table><p><b>جمع کل: '+escapeHtml(money(o.total))+'</b></p></section>'+
       (o.notes?'<section class="detail-box" style="margin-top:12px"><h4>یادداشت مشتری</h4><p>'+escapeHtml(o.notes)+'</p></section>':"")+

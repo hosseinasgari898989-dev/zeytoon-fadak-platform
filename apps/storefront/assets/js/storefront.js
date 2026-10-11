@@ -298,7 +298,7 @@ async function submitOrder(form){
   const o={code:newCode(),date:Date.now(),name:g('co1'),phone,city:g('co3'),postalCode:toEn(g('co4')).replace(/\D/g,''),address:g('co5')+(g('co4')?' (کد پستی: '+g('co4')+')':''),notes:g('co6'),delivery:form.querySelector('input[name=dl]:checked').value,payment:form.querySelector('input[name=pm]:checked').value,items:localItems,total:cartTotal(),serverSaved:false};
   try{
     if(window.FadakApi&&window.FadakApi.isConfigured()){
-      const result=await window.FadakApi.createOrder({name:o.name,phone:o.phone,city:o.city,postalCode:o.postalCode,address:g('co5'),notes:o.notes,delivery:o.delivery,payment:o.payment,items:cart.map(l=>({pid:l.pid,vi:l.vi,qty:l.qty}))});
+      const result=await window.FadakApi.createOrder({name:o.name,phone:o.phone,city:o.city,postalCode:o.postalCode,address:g('co5'),notes:o.notes,delivery:o.delivery,payment:o.payment,items:cart.map(l=>({pid:l.pid,vi:(byId(l.pid).v[l.vi].apiVi===undefined?l.vi:byId(l.pid).v[l.vi].apiVi),qty:l.qty}))});
       o.serverSaved=true;o.code=result.code||o.code;o.total=Number(result.total||o.total);o.status=result.status||'new';o.paymentStatus=result.paymentStatus||'pending_confirmation';
       if(Array.isArray(result.items))o.items=result.items;
     }else{o.serverError='آدرس API تنظیم نشده است'}
@@ -442,7 +442,7 @@ if(window.FadakApi&&window.FadakApi.isConfigured()){
     remote.products.forEach(function(item){
       var local=byId(item.id);
       if(local&&Array.isArray(item.v)&&item.v.length){
-        var variants=item.v.filter(function(v){return v&&Number(v.p)>0;}).map(function(v){return {l:String(v.l||''),p:Number(v.p)};});
+        var variants=item.v.filter(function(v){return v&&Number(v.p)>0;}).map(function(v){return {l:String(v.l||''),p:Number(v.p),apiVi:Number.isInteger(Number(v.vi))?Number(v.vi):undefined};});
         if(variants.length)local.v=variants;
       }
     });
