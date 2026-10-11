@@ -332,7 +332,14 @@ function showMessage(title,text){
 function askForm(title,fields,build){
   const d=$('#dlgMsg');
   d.innerHTML=`<form class="dlg" id="askForm">${dlgHead(title)}<div class="form-grid">${fields.map((f,i)=>`<div class="field ${f.full?'full':''}"><label for="af${i}">${f.l}</label>${f.t==='area'?`<textarea id="af${i}" ${f.req?'required':''}></textarea>`:`<input id="af${i}" ${f.type?`type="${f.type}" inputmode="tel"`:''} ${f.req?'required':''}>`}</div>`).join('')}</div><button class="btn btn-primary btn-block" style="margin-top:16px" type="submit">آماده‌سازی پیام</button></form>`;
-  $('#askForm').onsubmit=e=>{e.preventDefault();const vals=fields.map((f,i)=>$('#af'+i).value.trim());showMessage(title,build(vals))};
+  $('#askForm').onsubmit=async e=>{
+  e.preventDefault();const vals=fields.map((f,i)=>$('#af'+i).value.trim()),message=build(vals);
+  if(window.FadakApi&&window.FadakApi.isConfigured()){
+    const payload={name:vals[0]||'',phone:vals[1]||'',city:vals[2]||'',monthlyUse:title,notes:vals[3]||'',message:message};
+    try{await window.FadakApi.sendLead('subscriptions',payload);showMessage(title,'درخواست در سامانه ثبت شد.\\n'+message)}
+    catch(error){showMessage(title,'درخواست ذخیره نشد؛ اتصال سرور را بررسی کن یا متن زیر را برای مزرعه بفرست.\\n'+error.message+'\\n'+message)}
+  }else showMessage(title,'این متن فقط آماده شده و به سرور ارسال نشده است. برای ثبت آنلاین، سرور را پیکربندی کن؛ در غیر این صورت متن را برای مزرعه بفرست.\\n'+message);
+};
   openDlg(d);
 }
 function copyText(txt){
